@@ -1,0 +1,34 @@
+###주민등록
+POST localhost:8080/resident
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name":"이현호",
+  "residentRegistrationNumber":"880628-1232125",
+  "genderCode":"남",
+  "birthDate":"1998-06-28T12:00:00",
+  "birthPlaceCode":"병원",
+  "registrationBaseAddress":"전라남도 여수시",
+  "id": "resident8",
+  "password": "resident8",
+  "email": "resident8@naver.com"
+}
+
+###주민 수정
+PUT localhost:8080/resident?residentId=8
+Content-Type: application/json
+Accept: application/json
+
+{
+
+}
+
+###비밀번호 수정
+PUT localhost:8080/resident?residentId=7
+Content-Type: application/json
+Accept: application/json
+
+{
+  "password": "resident7"
+}
