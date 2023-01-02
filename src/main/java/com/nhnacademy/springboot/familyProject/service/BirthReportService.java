@@ -1,7 +1,7 @@
 package com.nhnacademy.springboot.familyProject.service;
 
-import com.nhnacademy.springboot.familyProject.domain.BirthRegistrationRequest;
-import com.nhnacademy.springboot.familyProject.domain.BirthRegistrationDto;
+import com.nhnacademy.springboot.familyProject.domain.BirthReportRequest;
+import com.nhnacademy.springboot.familyProject.domain.BirthReportDto;
 import com.nhnacademy.springboot.familyProject.entity.BirthDeathReportResident;
 import com.nhnacademy.springboot.familyProject.entity.Resident;
 import com.nhnacademy.springboot.familyProject.exception.DataDuplicateException;
@@ -11,59 +11,78 @@ import com.nhnacademy.springboot.familyProject.repository.resident.ResidentRepos
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
-public class BirthRegistrationService {
+public class BirthReportService {
     private final String BIRTH_CODE = "출생";
     private final ResidentRepository residentRepository;
     private final BirthDeathReportResidentRepository birthDeathReportResidentRepository;
 
-    public BirthRegistrationService(ResidentRepository residentRepository, BirthDeathReportResidentRepository birthDeathReportResidentRepository) {
+    public BirthReportService(ResidentRepository residentRepository, BirthDeathReportResidentRepository birthDeathReportResidentRepository) {
         this.residentRepository = residentRepository;
         this.birthDeathReportResidentRepository = birthDeathReportResidentRepository;
     }
 
     @Transactional
-    public BirthRegistrationDto createBirthRegistration(Integer serialNumber,
-                                                        BirthRegistrationRequest birthRegistrationRequest) {
+    public BirthReportDto createBirthReport(Integer serialNumber,
+                                                  BirthReportRequest birthReportRequest) {
         Resident reportResident = residentRepository.findById(serialNumber)
                 .orElseThrow(ResidentNotFoundException::new);
-        residentRepository.findById(birthRegistrationRequest.getResidentSerialNumber())
+        residentRepository.findById(birthReportRequest.getResidentSerialNumber())
                 .orElseThrow(ResidentNotFoundException::new);
         if(Objects.nonNull(birthDeathReportResidentRepository.findByPk_BirthDeathTypeCodeAndPk_ResidentSerialNumber(BIRTH_CODE, serialNumber))) {
-            throw new DataDuplicateException("BirthRegistration key value");
+            throw new DataDuplicateException("BirthReport key value");
         }
 
         BirthDeathReportResident birthDeathReportResident = BirthDeathReportResident.builder()
-                .pk(new BirthDeathReportResident.Pk(BIRTH_CODE, serialNumber))
-                .birthDeathReportDate(birthRegistrationRequest.getBirthDeathReportDate())
-                .birthReportQualificationsCode(BIRTH_CODE)
-                .phoneNumber(birthRegistrationRequest.getPhoneNumber())
+                .pk(new BirthDeathReportResident.Pk(BIRTH_CODE, birthReportRequest.getResidentSerialNumber()))
+                .birthDeathReportDate(birthReportRequest.getBirthDeathReportDate())
+                .birthReportQualificationsCode(birthReportRequest.getBirthReportQualificationsCode())
+                .phoneNumber(birthReportRequest.getPhoneNumber())
                 .resident(reportResident)
                 .build();
 
-        return BirthRegistrationDto.create(birthDeathReportResidentRepository.save(birthDeathReportResident));
+        return BirthReportDto.create(birthDeathReportResidentRepository.save(birthDeathReportResident));
     }
 
     @Transactional
-    public BirthRegistrationDto updateBirthRegistration(Integer serialNumber,
-                                                        Integer targetSerialNumber,
-                                                        BirthRegistrationRequest birthRegistrationRequest) {
+    public BirthReportDto updateBirthReport(Integer serialNumber,
+                                                  Integer targetSerialNumber,
+                                                  BirthReportRequest birthReportRequest) {
         residentRepository.findById(serialNumber)
                 .orElseThrow(ResidentNotFoundException::new);
         residentRepository.findById(targetSerialNumber)
                 .orElseThrow(ResidentNotFoundException::new);
 
-        BirthDeathReportResident updateBirthDeathReportResident = birthDeathReportResidentRepository.findByPk_BirthDeathTypeCodeAndPk_ResidentSerialNumber(BIRTH_CODE, serialNumber)
-                .update(birthRegistrationRequest);
+        BirthDeathReportResident birthReport = birthDeathReportResidentRepository.findByPk_BirthDeathTypeCodeAndPk_ResidentSerialNumber(BIRTH_CODE, targetSerialNumber);
 
-        return BirthRegistrationDto.create(birthDeathReportResidentRepository.save(updateBirthDeathReportResident));
+        LocalDate birthDeathReportDate;
+        String birthReportQualificationsCode;
+        String phoneNumber;
+        if(Objects.isNull(birthReportRequest.getBirthDeathReportDate())) {
+            birthDeathReportDate = birthReport.getBirthDeathReportDate();
+        }else {
+            birthDeathReportDate = birthReportRequest.getBirthDeathReportDate();
+        }
+        if(Objects.isNull(birthReportRequest.getBirthReportQualificationsCode())) {
+            birthReportQualificationsCode = birthReport.getBirthReportQualificationsCode();
+        }else {
+            birthReportQualificationsCode = birthReportRequest.getBirthReportQualificationsCode();
+        }
+        if(Objects.isNull(birthReportRequest.getPhoneNumber())) {
+            phoneNumber = birthReport.getPhoneNumber();
+        }else {
+            phoneNumber = birthReportRequest.getPhoneNumber();
+        }
+
+        return BirthReportDto.create(birthDeathReportResidentRepository.save(birthReport.update(birthDeathReportDate, birthReportQualificationsCode, phoneNumber)));
     }
 
     @Transactional
-    public void deleteBirthRegistration(Integer serialNumber, Integer targetSerialNumber) {
+    public void deleteBirthReport(Integer serialNumber, Integer targetSerialNumber) {
         residentRepository.findById(serialNumber)
                 .orElseThrow(ResidentNotFoundException::new);
         residentRepository.findById(targetSerialNumber)

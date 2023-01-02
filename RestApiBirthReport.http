@@ -1,0 +1,23 @@
+###출생신고서 등록
+POST localhost:8080/residents/4/birth
+Content-Type: application/json
+Accept: application/json
+
+{
+  "residentSerialNumber": 8,
+  "birthDeathReportDate": "1998-06-29",
+  "birthReportQualificationsCode": "부",
+  "phoneNumber": "010-4567-8901"
+}
+
+###출생신고서 수정
+PUT localhost:8080/residents/4/birth/8
+Content-Type: application/json
+Accept: application/json
+
+{
+  "phoneNumber": "010-4567-1111"
+}
+
+###출생신고서 삭제
+DELETE localhost:8080/residents/4/birth/8

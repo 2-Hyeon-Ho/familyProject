@@ -1,5 +1,6 @@
 package com.nhnacademy.springboot.familyProject.entity;
 
+import com.nhnacademy.springboot.familyProject.domain.BirthReportRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,6 +41,7 @@ public class BirthDeathReportResident {
     @NoArgsConstructor
     @EqualsAndHashCode
     @Embeddable
+    @Getter
     public static class Pk implements Serializable {
 
         @Column(name = "birth_death_type_code")
@@ -47,5 +49,13 @@ public class BirthDeathReportResident {
 
         @Column(name = "resident_serial_number")
         private Integer residentSerialNumber;
+    }
+
+    public BirthDeathReportResident update(LocalDate birthDeathReportDate, String birthReportQualificationsCode, String phoneNumber) {
+        this.birthDeathReportDate = birthDeathReportDate;
+        this.birthReportQualificationsCode = birthReportQualificationsCode;
+        this.phoneNumber = phoneNumber;
+
+        return this;
     }
 }

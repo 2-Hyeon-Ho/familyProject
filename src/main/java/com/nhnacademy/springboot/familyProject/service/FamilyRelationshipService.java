@@ -27,6 +27,10 @@ public class FamilyRelationshipService {
 
     @Transactional
     public FamilyRelationshipDto createFamilyRelationship(Integer serialNumber, FamilyRelationshipCreateRequest familyRelationshipCreateRequest) {
+        residentRepository.findById(serialNumber)
+                .orElseThrow(ResidentNotFoundException::new);
+        residentRepository.findById(familyRelationshipCreateRequest.getFamilySerialNumber())
+                .orElseThrow(ResidentNotFoundException::new);
         if(Objects.nonNull(familyRelationshipRepository.findByPk_BaseResidentSerialNumberAndPk_FamilyResidentRegistrationNumber
                 (serialNumber, familyRelationshipCreateRequest.getFamilySerialNumber()))) {
             throw new DataDuplicateException("baseNumber and registrationNumber");
@@ -35,7 +39,7 @@ public class FamilyRelationshipService {
         FamilyRelationship familyRelationship = FamilyRelationship.builder()
                 .pk(new FamilyRelationship.Pk(familyRelationshipCreateRequest.getFamilySerialNumber(), serialNumber))
                 .familyRelationshipCode(familyRelationshipCreateRequest.getRelationShip())
-                .resident(residentRepository.findById(serialNumber).orElseThrow(ResidentNotFoundException::new))
+                .resident(residentRepository.findById(serialNumber).get())
                 .build();
 
         return FamilyRelationshipDto.create(familyRelationshipRepository.save(familyRelationship));

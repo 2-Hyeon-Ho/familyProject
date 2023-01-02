@@ -78,6 +78,6 @@ public class ResidentService {
             email = residentUpdateRequest.getEmail();
         }
 
-        return ResidentDto.create(resident.update(name, id, password, email));
+        return ResidentDto.create(residentRepository.save(resident.update(name, id, password, email)));
     }
 }

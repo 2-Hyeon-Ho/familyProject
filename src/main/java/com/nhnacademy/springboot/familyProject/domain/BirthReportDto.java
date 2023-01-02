@@ -1,16 +1,14 @@
 package com.nhnacademy.springboot.familyProject.domain;
 
 import com.nhnacademy.springboot.familyProject.entity.BirthDeathReportResident;
-import com.nhnacademy.springboot.familyProject.entity.Resident;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class BirthRegistrationDto {
+public class BirthReportDto {
     private Integer residentSerialNumber;
     private String birthDeathTypeCode;
     private Integer reportResidentSerialNumber;
@@ -18,8 +16,8 @@ public class BirthRegistrationDto {
     private String birthReportQualificationsCode;
     private String phoneNumber;
 
-    public static BirthRegistrationDto create(BirthDeathReportResident birthDeathReportResident) {
-        return new BirthRegistrationDto(
+    public static BirthReportDto create(BirthDeathReportResident birthDeathReportResident) {
+        return new BirthReportDto(
                 birthDeathReportResident.getPk().getResidentSerialNumber(),
                 birthDeathReportResident.getPk().getBirthDeathTypeCode(),
                 birthDeathReportResident.getResident().getResidentId(),
