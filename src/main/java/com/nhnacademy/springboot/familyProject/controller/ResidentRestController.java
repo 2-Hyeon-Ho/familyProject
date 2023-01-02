@@ -7,7 +7,6 @@ import com.nhnacademy.springboot.familyProject.exception.AcceptHeaderNotValidExc
 import com.nhnacademy.springboot.familyProject.exception.ResidentNotFoundException;
 import com.nhnacademy.springboot.familyProject.exception.ValidationFailedException;
 import com.nhnacademy.springboot.familyProject.service.ResidentService;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ import javax.validation.Valid;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/resident")
+@RequestMapping("/residents")
 public class ResidentRestController {
     private final ResidentService residentService;
 
@@ -30,20 +29,24 @@ public class ResidentRestController {
     public ResidentDto createResident(@Valid @RequestBody ResidentCreateRequest resident,
                                       BindingResult bindingResult,
                                       HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            throw new ValidationFailedException(bindingResult);
+        }
         String accept = request.getHeader("Accept");
         if (!accept.equals("application/json")) {
             throw new AcceptHeaderNotValidException(accept);
         }
-        if (bindingResult.hasErrors()) {
-            throw new ValidationFailedException(bindingResult);
-        }
         return residentService.createResident(resident);
     }
 
-    @PutMapping
+    @PutMapping("/{residentId}")
     public ResidentDto updateResident(@Valid @RequestBody ResidentUpdateRequest resident,
-                                      @RequestParam(value = "residentId") Integer residentId,
+                                      @PathVariable("residentId") Integer residentId,
+                                      BindingResult bindingResult,
                                       HttpServletRequest request) {
+        if(bindingResult.hasErrors()) {
+            throw new ValidationFailedException(bindingResult);
+        }
         String accept = request.getHeader("Accept");
         if (!accept.equals("application/json")) {
             throw new AcceptHeaderNotValidException(accept);

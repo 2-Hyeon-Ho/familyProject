@@ -29,6 +29,7 @@ public class FamilyRelationship {
     @NoArgsConstructor
     @EqualsAndHashCode
     @Embeddable
+    @Getter
     public static class Pk implements Serializable {
 
         @Column(name = "family_resident_serial_number")
@@ -36,5 +37,11 @@ public class FamilyRelationship {
 
         @Column(name = "base_resident_serial_number")
         private Integer baseResidentSerialNumber;
+    }
+
+    public FamilyRelationship update(String familyRelationshipCode) {
+        this.familyRelationshipCode = familyRelationshipCode;
+
+        return this;
     }
 }

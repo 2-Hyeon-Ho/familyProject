@@ -49,8 +49,8 @@ public class ResidentService {
         return ResidentDto.create(residentRepository.save(resident));
     }
 
-    public ResidentDto updateResident(ResidentUpdateRequest residentUpdateRequest, Integer residentId) {
-        Resident resident = residentRepository.findById(residentId)
+    public ResidentDto updateResident(ResidentUpdateRequest residentUpdateRequest, Integer serialNumber) {
+        Resident resident = residentRepository.findById(serialNumber)
                 .orElseThrow(ResidentNotFoundException::new);
         String name;
         String id;
