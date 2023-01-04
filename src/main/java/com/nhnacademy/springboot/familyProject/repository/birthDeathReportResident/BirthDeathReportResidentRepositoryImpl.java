@@ -1,0 +1,2 @@
+package com.nhnacademy.springboot.familyProject.repository.birthDeathReportResident;public class BirthDeathReportResidentRepositoryImpl {
+}
