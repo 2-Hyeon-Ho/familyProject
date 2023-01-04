@@ -34,6 +34,7 @@ public class BirthReportRestController {
         if(!accept.equals("application/json")) {
             throw new AcceptHeaderNotValidException(accept);
         }
+
         return birthReportService.createBirthReport(serialNumber, birthReportRequest);
     }
 

@@ -1,6 +1,5 @@
 package com.nhnacademy.springboot.familyProject.entity;
 
-import com.nhnacademy.springboot.familyProject.domain.BirthReportRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -51,9 +50,16 @@ public class BirthDeathReportResident {
         private Integer residentSerialNumber;
     }
 
-    public BirthDeathReportResident update(LocalDate birthDeathReportDate, String birthReportQualificationsCode, String phoneNumber) {
+    public BirthDeathReportResident birthReportUpdate(LocalDate birthDeathReportDate, String birthReportQualificationsCode, String phoneNumber) {
         this.birthDeathReportDate = birthDeathReportDate;
         this.birthReportQualificationsCode = birthReportQualificationsCode;
+        this.phoneNumber = phoneNumber;
+
+        return this;
+    }
+    public BirthDeathReportResident deathReportUpdate(LocalDate birthDeathReportDate, String deathReportQualificationsCode, String phoneNumber) {
+        this.birthDeathReportDate = birthDeathReportDate;
+        this.deathReportQualificationsCode = deathReportQualificationsCode;
         this.phoneNumber = phoneNumber;
 
         return this;
