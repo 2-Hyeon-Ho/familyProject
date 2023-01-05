@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -18,7 +19,7 @@ public class HouseholdCompositionResident {
     private Pk pk;
 
     @Column(name = "report_date")
-    private LocalDateTime reportDate;
+    private LocalDate reportDate;
 
     @Column(name = "household_relationship_code")
     private String householdRelationshipCode;

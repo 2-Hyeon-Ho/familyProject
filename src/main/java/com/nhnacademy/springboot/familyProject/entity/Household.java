@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Builder
@@ -30,4 +31,13 @@ public class Household {
 
     @Column(name = "current_house_movement_address")
     private String currentHouseMovementAddress;
+
+    @OneToMany(mappedBy = "houseHold")
+    private List<HouseholdCompositionResident> householdCompositionResidents;
+
+    public Household update(List<HouseholdCompositionResident> householdCompositionResidents) {
+        this.householdCompositionResidents = householdCompositionResidents;
+
+        return this;
+    }
 }

@@ -7,8 +7,22 @@ Accept: application/json
   "householdResidentSerialNumber": 8,
   "householdCompositionDate": "2023-01-05",
   "householdCompositionReasonCode": "세대분리",
-  "currentHouseMovementAddress": "광주광역시 지산동 410-1"
+  "currentHouseMovementAddress": "광주광역시 지산동 410-1",
+  "householdCompositionResidents": [
+    {
+      "residentSerialNumber": 8,
+      "reportDate": "2023-01-05",
+      "householdRelationshipCode": "본인",
+      "householdCompositionChangeReasonCode": "세대분리"
+    },
+    {
+      "residentSerialNumber": 1,
+      "reportDate": "2023-01-05",
+      "householdRelationshipCode": "부",
+      "householdCompositionChangeReasonCode": "전입"
+    }
+  ]
 }
 
 ###세대 삭제
-DELETE localhost:8080/household/3
+DELETE localhost:8080/household/4
