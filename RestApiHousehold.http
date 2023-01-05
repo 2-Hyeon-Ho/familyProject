@@ -1,0 +1,14 @@
+###세대 등록
+POST localhost:8080/household
+Content-Type: application/json
+Accept: application/json
+
+{
+  "householdResidentSerialNumber": 8,
+  "householdCompositionDate": "2023-01-05",
+  "householdCompositionReasonCode": "세대분리",
+  "currentHouseMovementAddress": "광주광역시 지산동 410-1"
+}
+
+###세대 삭제
+DELETE localhost:8080/household/3
