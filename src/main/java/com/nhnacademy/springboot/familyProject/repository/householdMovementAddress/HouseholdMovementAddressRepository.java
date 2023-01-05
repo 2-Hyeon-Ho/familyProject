@@ -3,5 +3,6 @@ package com.nhnacademy.springboot.familyProject.repository.householdMovementAddr
 import com.nhnacademy.springboot.familyProject.entity.HouseholdMovementAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface HouseholdMovementAddressRepository extends JpaRepository<HouseholdMovementAddress, HouseholdMovementAddress.Pk> {
+public interface HouseholdMovementAddressRepository extends JpaRepository<HouseholdMovementAddress, HouseholdMovementAddress.Pk>, HouseholdMovementAddressRepositoryCustom {
+    HouseholdMovementAddress findByLastAddressYnAndPk_HouseholdSerialNumber(String lastAddressYn, Integer householdSerialNumber);
 }

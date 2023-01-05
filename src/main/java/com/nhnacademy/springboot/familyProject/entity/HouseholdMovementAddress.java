@@ -32,6 +32,7 @@ public class HouseholdMovementAddress {
     @NoArgsConstructor
     @EqualsAndHashCode
     @Embeddable
+    @Getter
     public static class Pk implements Serializable {
 
         @Column(name = "house_movement_report_date")
@@ -39,5 +40,17 @@ public class HouseholdMovementAddress {
 
         @Column(name = "household_serial_number")
         private Integer householdSerialNumber;
+    }
+
+    public HouseholdMovementAddress updateLastAddressYn(String lastAddressYn) {
+        this.lastAddressYn = lastAddressYn;
+
+        return this;
+    }
+
+    public HouseholdMovementAddress update(String houseMovementAddress) {
+        this.houseMovementAddress = houseMovementAddress;
+
+        return this;
     }
 }
