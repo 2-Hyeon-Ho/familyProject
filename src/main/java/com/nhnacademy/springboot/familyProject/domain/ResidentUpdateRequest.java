@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 public class ResidentUpdateRequest {

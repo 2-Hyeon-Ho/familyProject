@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface FamilyRelationshipRepository extends JpaRepository<FamilyRelationship, FamilyRelationship.Pk>, FamilyRelationshipRepositoryCustom {
     FamilyRelationship findByPk_BaseResidentSerialNumberAndPk_FamilyResidentRegistrationNumber(Integer baseNumber, Integer registrationNumber);
-    FamilyRelationship findByPk_BaseResidentSerialNumberAndFamilyRelationshipCode(Integer baseNumber, String relationshipCode);
 }

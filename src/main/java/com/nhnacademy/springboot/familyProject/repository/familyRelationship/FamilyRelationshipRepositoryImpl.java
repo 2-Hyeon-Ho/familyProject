@@ -1,5 +1,6 @@
 package com.nhnacademy.springboot.familyProject.repository.familyRelationship;
 
+import com.nhnacademy.springboot.familyProject.domain.FamilyRelationResponse;
 import com.nhnacademy.springboot.familyProject.domain.ResidentDto;
 import com.nhnacademy.springboot.familyProject.entity.FamilyRelationship;
 import com.nhnacademy.springboot.familyProject.entity.QFamilyRelationship;
@@ -32,7 +33,7 @@ public class FamilyRelationshipRepositoryImpl extends QuerydslRepositorySupport 
      */
 
     @Override
-    public List<ResidentDto> findFamilyRelationshipById(String id) {
+    public List<FamilyRelationResponse> findFamilyRelationshipById(String id) {
         QFamilyRelationship familyRelationship = QFamilyRelationship.familyRelationship;
         QResident resident = QResident.resident;
         QResident subResident = new QResident("sub");
@@ -41,7 +42,7 @@ public class FamilyRelationshipRepositoryImpl extends QuerydslRepositorySupport 
                 .innerJoin(familyRelationship.resident, subResident)
                 .where(resident.residentId.eq(getResidentIdById(id)))
                 .select(Projections.constructor(
-                        ResidentDto.class,
+                        FamilyRelationResponse.class,
                         familyRelationship.familyRelationshipCode,
                         subResident.name,
                         subResident.birthDate,

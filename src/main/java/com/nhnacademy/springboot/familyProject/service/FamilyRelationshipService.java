@@ -65,7 +65,7 @@ public class FamilyRelationshipService {
         familyRelationshipRepository.delete(familyRelationshipRepository.findByPk_BaseResidentSerialNumberAndPk_FamilyResidentRegistrationNumber(baseNumber, registrationNumber));
     }
 
-    public List<ResidentDto> readFamilyRelationship(String id) {
+    public List<FamilyRelationResponse> readFamilyRelationship(String id) {
         if(Objects.isNull(residentRepository.findById(id))) {
             throw new ResidentNotFoundException();
         }
