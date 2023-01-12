@@ -1,0 +1,7 @@
+package com.nhnacademy.springboot.familyProject.householdCompositionResident.repository;
+
+import com.nhnacademy.springboot.familyProject.householdCompositionResident.domain.HouseholdCompositionResident;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface HouseholdCompositionResidentRepository extends JpaRepository<HouseholdCompositionResident, HouseholdCompositionResident.Pk>, HouseholdCompositionResidentRepositoryCustom {
+}

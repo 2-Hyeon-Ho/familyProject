@@ -1,17 +1,14 @@
 package com.nhnacademy.springboot.familyProject.repository.resident;
 
-import com.nhnacademy.springboot.familyProject.entity.FamilyRelationship;
-import com.nhnacademy.springboot.familyProject.entity.Resident;
+import com.nhnacademy.springboot.familyProject.resident.domain.Resident;
 import com.nhnacademy.springboot.familyProject.exception.ResidentNotFoundException;
+import com.nhnacademy.springboot.familyProject.resident.repository.ResidentRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

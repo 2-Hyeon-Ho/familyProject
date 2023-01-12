@@ -1,7 +1,7 @@
 package com.nhnacademy.springboot.familyProject.repository.householdMovementAddress;
 
-import com.nhnacademy.springboot.familyProject.entity.Household;
-import com.nhnacademy.springboot.familyProject.entity.HouseholdMovementAddress;
+import com.nhnacademy.springboot.familyProject.householdMovementAddress.domain.HouseholdMovementAddress;
+import com.nhnacademy.springboot.familyProject.householdMovementAddress.repository.HouseholdMovementAddressRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

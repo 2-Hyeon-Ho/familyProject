@@ -1,0 +1,8 @@
+package com.nhnacademy.springboot.familyProject.householdMovementAddress.repository;
+
+import com.nhnacademy.springboot.familyProject.householdMovementAddress.domain.HouseholdMovementAddress;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface HouseholdMovementAddressRepository extends JpaRepository<HouseholdMovementAddress, HouseholdMovementAddress.Pk>, HouseholdMovementAddressRepositoryCustom {
+    HouseholdMovementAddress findByLastAddressYnAndPk_HouseholdSerialNumber(String lastAddressYn, Integer householdSerialNumber);
+}

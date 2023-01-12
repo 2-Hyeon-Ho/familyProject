@@ -1,0 +1,8 @@
+package com.nhnacademy.springboot.familyProject.birthDeathReportResident.repository;
+
+import com.nhnacademy.springboot.familyProject.birthDeathReportResident.domain.BirthDeathReportResident;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BirthDeathReportResidentRepository extends JpaRepository<BirthDeathReportResident, BirthDeathReportResident.Pk>, BirthDeathReportResidentRepositoryCustom {
+    BirthDeathReportResident findByPk_BirthDeathTypeCodeAndPk_ResidentSerialNumberAndResident_ResidentId(String code, Integer targetSerialNumber, Integer reportSerialNumber);
+}

@@ -1,14 +1,13 @@
 package com.nhnacademy.springboot.familyProject.repository.birthDeathReportResident;
 
-import com.nhnacademy.springboot.familyProject.entity.BirthDeathReportResident;
+import com.nhnacademy.springboot.familyProject.birthDeathReportResident.domain.BirthDeathReportResident;
+import com.nhnacademy.springboot.familyProject.birthDeathReportResident.repository.BirthDeathReportResidentRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

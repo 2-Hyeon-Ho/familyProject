@@ -1,6 +1,7 @@
 package com.nhnacademy.springboot.familyProject.repository.householdCompositionResident;
 
-import com.nhnacademy.springboot.familyProject.entity.HouseholdCompositionResident;
+import com.nhnacademy.springboot.familyProject.householdCompositionResident.domain.HouseholdCompositionResident;
+import com.nhnacademy.springboot.familyProject.householdCompositionResident.repository.HouseholdCompositionResidentRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
