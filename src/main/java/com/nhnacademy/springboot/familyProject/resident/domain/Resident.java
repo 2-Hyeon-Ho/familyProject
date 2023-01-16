@@ -21,30 +21,31 @@ public class Resident {
     @Column(name = "resident_serial_number")
     private Integer residentId;
 
-    @Column(name = "name")
-    private String name;
+    @Embedded
+    private Name name;
 
-    @Column(name = "resident_registration_number")
-    private String residentRegistrationNumber;
+    @Embedded
+    private ResidentRegistrationNumber residentRegistrationNumber;
 
-    @Column(name = "gender_code")
-    private String genderCode;
+    @Column(name = "gender_code", nullable = false)
+    private GenderCode genderCode;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "birth_date")
+    @Column(name = "birth_date", nullable = false)
     private LocalDateTime birthDate;
 
-    @Column(name = "birth_place_code")
-    private String birthPlaceCode;
+    @Column(name = "birth_place_code", nullable = false)
+    private BirthPlaceCode birthPlaceCode;
 
-    @Column(name = "registration_base_address")
+    @Column(name = "registration_base_address", nullable = false)
     private String registrationBaseAddress;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "death_date")
     private LocalDateTime deathDate;
 
     @Column(name = "death_place_code")
-    private String deathPlaceCode;
+    private DeathPlaceCode deathPlaceCode;
 
     @Column(name = "death_place_address")
     private String deathPlaceAddress;
@@ -52,21 +53,12 @@ public class Resident {
     @OneToMany(mappedBy = "resident")
     private List<FamilyRelationship> familyRelationship;
 
-    @Column(name = "id")
-    private String id;
+    @Embedded
+    private Identification id;
 
-    @Column(name = "password")
-    private String password;
+    @Embedded
+    private Password password;
 
-    @Column(name = "email_address")
-    private String email;
-
-    public Resident update(String name, String id, String password, String email) {
-        this.name = name;
-        this.id = id;
-        this.password = password;
-        this.email = email;
-
-        return this;
-    }
+    @Embedded
+    private Email email;
 }
