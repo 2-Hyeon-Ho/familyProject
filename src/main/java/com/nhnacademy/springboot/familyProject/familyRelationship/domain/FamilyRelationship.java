@@ -17,8 +17,9 @@ public class FamilyRelationship {
     @EmbeddedId
     private Pk pk;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "family_relationship_code")
-    private String familyRelationshipCode;
+    private FamilyRelationshipCode familyRelationshipCode;
 
     @MapsId("baseResidentSerialNumber")
     @ManyToOne
@@ -40,9 +41,7 @@ public class FamilyRelationship {
         private Integer baseResidentSerialNumber;
     }
 
-    public FamilyRelationship update(String familyRelationshipCode) {
+    public void update(FamilyRelationshipCode familyRelationshipCode) {
         this.familyRelationshipCode = familyRelationshipCode;
-
-        return this;
     }
 }
