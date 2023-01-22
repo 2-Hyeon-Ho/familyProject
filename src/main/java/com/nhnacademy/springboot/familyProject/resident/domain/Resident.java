@@ -1,6 +1,7 @@
 package com.nhnacademy.springboot.familyProject.resident.domain;
 
 import com.nhnacademy.springboot.familyProject.familyRelationship.domain.FamilyRelationship;
+import java.util.Objects;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,6 +28,7 @@ public class Resident {
     @Embedded
     private ResidentRegistrationNumber residentRegistrationNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender_code", nullable = false)
     private GenderCode genderCode;
 
@@ -34,6 +36,7 @@ public class Resident {
     @Column(name = "birth_date", nullable = false)
     private LocalDateTime birthDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "birth_place_code", nullable = false)
     private BirthPlaceCode birthPlaceCode;
 
@@ -44,6 +47,7 @@ public class Resident {
     @Column(name = "death_date")
     private LocalDateTime deathDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "death_place_code")
     private DeathPlaceCode deathPlaceCode;
 
@@ -61,4 +65,25 @@ public class Resident {
 
     @Embedded
     private Email email;
+
+    public void update(Name name, Identification id, Password password, Email email) {
+        if(Objects.nonNull(name)) {
+            this.name = name;
+        }
+        if(Objects.nonNull(id)) {
+            this.id = id;
+        }
+        if(Objects.nonNull(password)) {
+            this.password = password;
+        }
+        if(Objects.nonNull(email)) {
+            this.email = email;
+        }
+    }
+
+    public void updateDeath(LocalDateTime deathDate, DeathPlaceCode deathPlaceCode, String deathPlaceAddress) {
+        this.deathDate = deathDate;
+        this.deathPlaceCode = deathPlaceCode;
+        this.deathPlaceAddress = deathPlaceAddress;
+    }
 }
