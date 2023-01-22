@@ -16,11 +16,7 @@ public enum ErrorCode {
     PARAMETER_NOT_EXIST(HttpStatus.BAD_REQUEST, "변수가 존재하지 않습니다. 변수를 입력해주세요."),
     NAME_IS_NOT_EMPTY(HttpStatus.BAD_REQUEST, "이름은 빈값이 허용되지 않습니다"),
     RESIDENT_REGISTRATION_NUMBER_IS_NOT_EMPTY(HttpStatus.BAD_REQUEST, "주민등록번호는 빈값이 허용되지 않습니다."),
-    RESIDENT_REGISTRATION_NUMBER_IS_INCORRECT_FORM(HttpStatus.BAD_REQUEST, "주민등록번호의 형식이 알맞지 않습니다."),
-    GENDER_CODE_IS_NOT_EMPTY(HttpStatus.BAD_REQUEST, "성별은 빈값이 허용되지 않습니다."),
-    GENDER_CODE_IS_INCORRECT_FORM(HttpStatus.BAD_REQUEST, "성별의 형식은 'M' 또는 'F'입니다."),
-    BIRTH_PLACE_CODE_IS_NOT_EMPTY(HttpStatus.BAD_REQUEST, "출생코드는 빈값을 허용하지 않습니다."),
-    BIRTH_PLACE_CODE_IS_INCORRECT_FORM(HttpStatus.BAD_REQUEST, "출생코드의 형식은 '자택' 또는 '병원', '기타'입니다.");
+    RESIDENT_REGISTRATION_NUMBER_IS_INCORRECT_FORM(HttpStatus.BAD_REQUEST, "주민등록번호의 형식이 알맞지 않습니다.");
 
     private final HttpStatus status;
     private final String errorMessage;
