@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Embeddable
 @NoArgsConstructor
@@ -21,9 +22,9 @@ public class Password {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public Password(String password) {
+    public Password(String password, PasswordEncoder passwordEncoder) {
         validate(password);
-        this.password = password;
+        this.password = passwordEncoder.encode(password);
     }
 
     private void validate(String password) {
