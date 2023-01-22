@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ResidentResponse {
 
+    private Integer residentId;
+
     private String name;
 
     private String residentRegistrationNumber;
@@ -32,19 +34,19 @@ public class ResidentResponse {
 
     private String email;
 
-    public static ResidentResponse create(Resident resident) {
-        return new ResidentResponse(
-                resident.getName(),
-                resident.getResidentRegistrationNumber(),
-                resident.getGenderCode(),
-                resident.getBirthDate(),
-                resident.getBirthPlaceCode(),
-                resident.getRegistrationBaseAddress(),
-                resident.getDeathDate(),
-                resident.getDeathPlaceCode(),
-                resident.getDeathPlaceAddress(),
-                resident.getId(),
-                resident.getEmail()
-        );
+    public ResidentResponse(Resident resident) {
+        this.residentId = resident.getResidentId();
+        this.name = resident.getName().getName();
+        this.residentRegistrationNumber = resident.getResidentRegistrationNumber()
+            .getResidentRegistrationNumber();
+        this.genderCode = resident.getGenderCode().name();
+        this.birthDate = resident.getBirthDate();
+        this.birthPlaceCode = resident.getBirthPlaceCode().name();
+        this.registrationBaseAddress = resident.getRegistrationBaseAddress();
+        this.deathDate = resident.getDeathDate();
+        this.deathPlaceCode = resident.getDeathPlaceCode().name();
+        this.deathPlaceAddress = resident.getDeathPlaceAddress();
+        this.id = resident.getId().getId();
+        this.email = resident.getEmail().getEmail();
     }
 }
