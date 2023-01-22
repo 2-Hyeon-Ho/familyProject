@@ -1,12 +1,26 @@
 package com.nhnacademy.springboot.familyProject.resident.service;
 
+import com.nhnacademy.springboot.familyProject.common.constant.ErrorCode;
+import com.nhnacademy.springboot.familyProject.exception.CustomException;
+import com.nhnacademy.springboot.familyProject.resident.domain.DeathPlaceCode;
+import com.nhnacademy.springboot.familyProject.resident.domain.Email;
+import com.nhnacademy.springboot.familyProject.resident.domain.Identification;
+import com.nhnacademy.springboot.familyProject.resident.domain.Name;
+import com.nhnacademy.springboot.familyProject.resident.domain.Password;
+import com.nhnacademy.springboot.familyProject.resident.domain.ResidentRegistrationNumber;
 import com.nhnacademy.springboot.familyProject.resident.dto.ResidentResponse;
 import com.nhnacademy.springboot.familyProject.resident.dto.ResidentCreateRequest;
+import com.nhnacademy.springboot.familyProject.resident.dto.ResidentUpdateDeathRequest;
 import com.nhnacademy.springboot.familyProject.resident.dto.ResidentUpdateRequest;
 import com.nhnacademy.springboot.familyProject.resident.domain.Resident;
 import com.nhnacademy.springboot.familyProject.exception.DataDuplicateException;
 import com.nhnacademy.springboot.familyProject.exception.ResidentNotFoundException;
 import com.nhnacademy.springboot.familyProject.resident.repository.ResidentRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class ResidentService {
 
     private final ResidentRepository residentRepository;
@@ -25,58 +39,69 @@ public class ResidentService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public ResidentResponse createResident(ResidentCreateRequest residentCreateRequest) {
-        if(Objects.nonNull(residentRepository.findByResidentRegistrationNumber(residentCreateRequest.getResidentRegistrationNumber()))) {
+        if(Objects.nonNull(residentRepository.findByResidentRegistrationNumber(new ResidentRegistrationNumber(residentCreateRequest.getResidentRegistrationNumber())))) {
             throw new DataDuplicateException(residentCreateRequest.getResidentRegistrationNumber());
         }
-        if(Objects.nonNull(residentRepository.findById(residentCreateRequest.getId()))) {
+        if(Objects.nonNull(residentRepository.findById(new Identification(residentCreateRequest.getId())))) {
             throw new DataDuplicateException(residentCreateRequest.getId());
         }
 
-        Resident resident = Resident.builder()
-                .name(residentCreateRequest.getName())
-                .residentRegistrationNumber(residentCreateRequest.getResidentRegistrationNumber())
-                .genderCode(residentCreateRequest.getGenderCode())
-                .birthDate(residentCreateRequest.getBirthDate())
-                .birthPlaceCode(residentCreateRequest.getBirthPlaceCode())
-                .registrationBaseAddress(residentCreateRequest.getRegistrationBaseAddress())
-                .id(residentCreateRequest.getId())
-                .password(passwordEncoder.encode(residentCreateRequest.getPassword()))
-                .email(residentCreateRequest.getEmail())
-                .build();
+        Resident resident = residentRepository.save(residentCreateRequest.toResident(passwordEncoder));
 
-        return ResidentResponse.create(residentRepository.save(resident));
+        return new ResidentResponse(resident);
     }
 
-    public ResidentResponse updateResident(ResidentUpdateRequest residentUpdateRequest, Integer serialNumber) {
-        Resident resident = residentRepository.findById(serialNumber)
-                .orElseThrow(ResidentNotFoundException::new);
-        String name;
-        String id;
-        String password;
-        String email;
+    public List<ResidentResponse> readAllResident(Pageable pageable) {
+        Page<Resident> residents = residentRepository.findAll(pageable);
 
-        if(Objects.isNull(residentUpdateRequest.getName())) {
-            name = resident.getName();
-        }else {
-            name = residentUpdateRequest.getName();
-        }
-        if(Objects.isNull(residentUpdateRequest.getId())) {
-            id = resident.getId();
-        }else {
-            id = residentUpdateRequest.getId();
-        }
-        if(Objects.isNull(residentUpdateRequest.getPassword())) {
-            password = resident.getPassword();
-        }else {
-            password = passwordEncoder.encode(residentUpdateRequest.getPassword());
-        }
-        if(Objects.isNull(residentUpdateRequest.getEmail())) {
-            email = resident.getEmail();
-        }else {
-            email = residentUpdateRequest.getEmail();
-        }
+        return residents.get()
+            .map(ResidentResponse::new)
+            .collect(Collectors.toList());
+    }
 
-        return ResidentResponse.create(residentRepository.save(resident.update(name, id, password, email)));
+    @Transactional
+    public ResidentResponse updateResident(Integer serialNumber, ResidentUpdateRequest residentUpdateRequest) {
+        Resident resident = residentFindById(serialNumber);
+
+        if(Objects.nonNull(residentRepository.findById(new Identification(residentUpdateRequest.getId())))) {
+            throw new DataDuplicateException(residentUpdateRequest.getId());
+        }
+        resident.update(
+            new Name(residentUpdateRequest.getName()),
+            new Identification(residentUpdateRequest.getId()),
+            new Password(residentUpdateRequest.getPassword(), passwordEncoder),
+            new Email(residentUpdateRequest.getEmail())
+        );
+        return new ResidentResponse(resident);
+    }
+
+    @Transactional
+    public ResidentResponse updateDeathResident(Integer serialNumber, ResidentUpdateDeathRequest residentUpdateDeathRequest) {
+        Resident resident = residentFindById(serialNumber);
+
+        resident.updateDeath(
+            residentUpdateDeathRequest.getDeathDate(),
+            DeathPlaceCode.valueOf(residentUpdateDeathRequest.getDeathPlaceCode()),
+            residentUpdateDeathRequest.getDeathPlaceAddress()
+        );
+        return new ResidentResponse(resident);
+    }
+
+    @Transactional
+    public ResidentResponse deleteResident(Integer serialNumber) {
+        Resident resident = residentFindById(serialNumber);
+        residentRepository.delete(resident);
+
+        return new ResidentResponse(resident);
+    }
+
+    private Resident residentFindById(Integer serialNumber) {
+        Optional<Resident> resident = residentRepository.findById(serialNumber);
+        if(resident.isPresent()) {
+            return resident.get();
+        }
+        throw new CustomException(ErrorCode.RESIDENT_NOT_FOUND);
     }
 }
