@@ -1,4 +1,4 @@
-package com.nhnacademy.springboot.familyProject.familyRelationshipCertificateIssue.dto;
+package com.nhnacademy.springboot.familyProject.familyRelationship.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
