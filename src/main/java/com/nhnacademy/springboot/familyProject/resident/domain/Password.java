@@ -1,12 +1,13 @@
 package com.nhnacademy.springboot.familyProject.resident.domain;
 
+import static com.nhnacademy.springboot.familyProject.config.SecurityConfig.passwordEncoder;
+
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Embeddable
 @NoArgsConstructor
@@ -22,9 +23,9 @@ public class Password {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public Password(String password, PasswordEncoder passwordEncoder) {
+    public Password(String password) {
         validate(password);
-        this.password = passwordEncoder.encode(password);
+        this.password = passwordEncoder().encode(password);
     }
 
     private void validate(String password) {

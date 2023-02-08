@@ -1,6 +1,7 @@
 package com.nhnacademy.springboot.familyProject.resident.domain;
 
 
+import static com.nhnacademy.springboot.familyProject.config.SecurityConfig.passwordEncoder;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
@@ -9,17 +10,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 class ResidentTest {
-    private PasswordEncoder passwordEncoder;
     private Resident resident;
 
     @BeforeEach
     void setUp() {
-        passwordEncoder = new BCryptPasswordEncoder();
-
         resident = Resident.builder()
             .name(new Name("HyeonHo"))
             .residentRegistrationNumber(new ResidentRegistrationNumber("980628-1632118"))
@@ -28,7 +24,7 @@ class ResidentTest {
             .birthPlaceCode(BirthPlaceCode.병원)
             .registrationBaseAddress("Yeosu-Si")
             .id(new Identification("bam6469"))
-            .password(new Password("@abc12345678", passwordEncoder))
+            .password(new Password("@abc12345678"))
             .email(new Email("bam6469@naver.com"))
             .build();
     }
@@ -40,14 +36,14 @@ class ResidentTest {
         resident.update(
             null,
             new Identification("bam201"),
-            new Password("!abc12345678", passwordEncoder),
+            new Password("!abc12345678"),
             null
         );
 
         assertAll(
             () -> Assertions.assertThat(resident.getName()).isEqualTo(new Name("HyeonHo")),
             () -> Assertions.assertThat(resident.getId()).isEqualTo(new Identification("bam201")),
-            () -> passwordEncoder.matches("!abc12345678", resident.getPassword().getPassword()),
+            () -> passwordEncoder().matches("!abc12345678", resident.getPassword().getPassword()),
             () -> Assertions.assertThat(resident.getEmail()).isEqualTo(new Email("bam6469@naver.com"))
         );
     }

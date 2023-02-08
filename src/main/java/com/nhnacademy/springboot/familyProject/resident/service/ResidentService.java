@@ -14,14 +14,12 @@ import com.nhnacademy.springboot.familyProject.resident.dto.ResidentUpdateDeathR
 import com.nhnacademy.springboot.familyProject.resident.dto.ResidentUpdateRequest;
 import com.nhnacademy.springboot.familyProject.resident.domain.Resident;
 import com.nhnacademy.springboot.familyProject.exception.DataDuplicateException;
-import com.nhnacademy.springboot.familyProject.exception.ResidentNotFoundException;
 import com.nhnacademy.springboot.familyProject.resident.repository.ResidentRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +30,9 @@ import java.util.Objects;
 public class ResidentService {
 
     private final ResidentRepository residentRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public ResidentService(ResidentRepository residentRepository, PasswordEncoder passwordEncoder) {
+    public ResidentService(ResidentRepository residentRepository) {
         this.residentRepository = residentRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -48,7 +44,7 @@ public class ResidentService {
             throw new DataDuplicateException(residentCreateRequest.getId());
         }
 
-        Resident resident = residentRepository.save(residentCreateRequest.toResident(passwordEncoder));
+        Resident resident = residentRepository.save(residentCreateRequest.toResident());
 
         return new ResidentResponse(resident);
     }
@@ -71,7 +67,7 @@ public class ResidentService {
         resident.update(
             new Name(residentUpdateRequest.getName()),
             new Identification(residentUpdateRequest.getId()),
-            new Password(residentUpdateRequest.getPassword(), passwordEncoder),
+            new Password(residentUpdateRequest.getPassword()),
             new Email(residentUpdateRequest.getEmail())
         );
         return new ResidentResponse(resident);

@@ -8,15 +8,12 @@ import com.nhnacademy.springboot.familyProject.resident.domain.Name;
 import com.nhnacademy.springboot.familyProject.resident.domain.Password;
 import com.nhnacademy.springboot.familyProject.resident.domain.Resident;
 import com.nhnacademy.springboot.familyProject.resident.domain.ResidentRegistrationNumber;
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -53,7 +50,7 @@ public class ResidentCreateRequest {
 
     private String email;
 
-    public Resident toResident(PasswordEncoder passwordEncoder) {
+    public Resident toResident() {
         return Resident.builder()
             .name(new Name(name))
             .residentRegistrationNumber(new ResidentRegistrationNumber(residentRegistrationNumber))
@@ -65,7 +62,7 @@ public class ResidentCreateRequest {
             .deathPlaceCode(DeathPlaceCode.valueOf("해당없음"))
             .deathPlaceAddress(null)
             .id(new Identification(id))
-            .password(new Password(password, passwordEncoder))
+            .password(new Password(password))
             .email(new com.nhnacademy.springboot.familyProject.resident.domain.Email(email))
             .build();
     }
